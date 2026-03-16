@@ -9,6 +9,7 @@ import { CalendarView } from "@/components/calendar/calendar-view";
 import { MessagesView } from "@/components/messages/messages-view";
 import { BotSimulatorView } from "@/components/bot/bot-simulator-view";
 import { QuotesView } from "@/components/quotes/quotes-view";
+import { DemoWebView } from "@/components/demo-web/demo-web-view";
 import { AppSection, MessageLead, QuoteItem } from "@/lib/types";
 import { messagesMock } from "@/lib/mock-data";
 
@@ -28,6 +29,7 @@ export default function HomePage() {
           <AppHeader section={section} />
 
           {section === "dashboard" && <DashboardView />}
+
           {section === "packages" && (
             <PackagesView
               quotes={quotes}
@@ -35,14 +37,28 @@ export default function HomePage() {
               goToQuotes={() => setSection("quotes")}
             />
           )}
+
           {section === "quotes" && <QuotesView quotes={quotes} />}
+
           {section === "calendar" && <CalendarView />}
-          {section === "messages" && <MessagesView messages={messages} />}
+
           {section === "bot" && (
             <BotSimulatorView
               quotes={quotes}
               setQuotes={setQuotes}
               messages={messages}
+              setMessages={setMessages}
+              goToQuotes={() => setSection("quotes")}
+              goToMessages={() => setSection("messages")}
+            />
+          )}
+
+          {section === "messages" && <MessagesView messages={messages} />}
+
+          {section === "demo-web" && (
+            <DemoWebView
+              quotes={quotes}
+              setQuotes={setQuotes}
               setMessages={setMessages}
               goToQuotes={() => setSection("quotes")}
               goToMessages={() => setSection("messages")}

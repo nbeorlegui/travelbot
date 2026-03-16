@@ -16,6 +16,7 @@ const titles: Record<AppSection, string> = {
   calendar: "Calendario",
   messages: "Mensajes",
   bot: "Bot Simulador",
+  "demo-web": "Demo Web"
 };
 
 export function AppHeader({ section }: AppHeaderProps) {

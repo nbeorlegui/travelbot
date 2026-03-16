@@ -15,6 +15,7 @@ import {
   Plane,
   TrendingUp,
   Users,
+  ExternalLink,
 } from "lucide-react";
 
 const salesByMonth = [
@@ -39,28 +40,28 @@ const upcomingTrips = [
     id: 1,
     passenger: "Laura Gómez",
     destination: "Punta Cana",
-    date: "12 Jul 2028",
+    date: "12 Jul 2026",
     status: "ok",
   },
   {
     id: 2,
     passenger: "Martín Pérez",
     destination: "Cancún",
-    date: "14 Jul 2028",
+    date: "14 Jul 2026",
     status: "warning",
   },
   {
     id: 3,
     passenger: "Carla Torres",
     destination: "Río de Janeiro",
-    date: "16 Jul 2028",
+    date: "16 Jul 2026",
     status: "danger",
   },
   {
     id: 4,
     passenger: "Familia Suárez",
     destination: "Bariloche",
-    date: "18 Jul 2028",
+    date: "18 Jul 2026",
     status: "ok",
   },
 ];
@@ -133,8 +134,9 @@ function getTripDot(status: string) {
 
 function getAgendaColor(type: string) {
   if (type === "danger") return "bg-red-100 text-red-700 border-red-200";
-  if (type === "warning")
+  if (type === "warning") {
     return "bg-yellow-100 text-yellow-700 border-yellow-200";
+  }
   return "bg-emerald-100 text-emerald-700 border-emerald-200";
 }
 
@@ -169,8 +171,22 @@ export function DashboardView() {
     },
   ];
 
+  const openDemoWeb = () => {
+    window.open("/demo-web", "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div className="space-y-6">
+      <div className="flex justify-end">
+        <button
+          onClick={openDemoWeb}
+          className="inline-flex items-center gap-2 rounded-2xl bg-sky-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-600"
+        >
+          <ExternalLink className="h-4 w-4" />
+          Abrir Demo Web
+        </button>
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {kpis.map((item) => (
           <Card key={item.label} className="rounded-3xl border-slate-200">
@@ -212,11 +228,11 @@ export function DashboardView() {
                       {item.value}
                     </div>
                     <div className="flex h-56 w-full items-end rounded-2xl bg-slate-100 p-2">
-                     <div
+                      <div
                         className="w-full rounded-xl bg-sky-500 transition-all hover:opacity-90"
                         style={{ height }}
                         title={`${item.month}: ${item.value} ventas`}
-                        />
+                      />
                     </div>
                     <div className="text-sm text-slate-500">{item.month}</div>
                   </div>
@@ -232,15 +248,22 @@ export function DashboardView() {
           </CardHeader>
           <CardContent className="space-y-4">
             {destinations.map((item) => (
-              <div key={item.name} className="space-y-2">
+              <div
+                key={item.name}
+                className="space-y-2"
+                title={`${item.name}: ${item.value} ventas`}
+              >
                 <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium text-slate-700">{item.name}</span>
+                  <span className="font-medium text-slate-700">
+                    {item.name}
+                  </span>
                   <span className="text-slate-500">{item.value} ventas</span>
                 </div>
                 <div className="h-3 rounded-full bg-slate-100">
                   <div
-                    className="h-3 rounded-full bg-violet-500"
+                    className="h-3 rounded-full bg-violet-500 transition-all hover:opacity-90"
                     style={{ width: `${(item.value / maxDestination) * 100}%` }}
+                    title={`${item.name}: ${item.value} ventas`}
                   />
                 </div>
               </div>
@@ -259,9 +282,12 @@ export function DashboardView() {
               <div
                 key={trip.id}
                 className="flex items-center justify-between rounded-2xl border border-slate-200 p-4"
+                title={`${trip.passenger} · ${trip.destination} · ${trip.date}`}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`h-3 w-3 rounded-full ${getTripDot(trip.status)}`} />
+                  <div
+                    className={`h-3 w-3 rounded-full ${getTripDot(trip.status)}`}
+                  />
                   <div>
                     <div className="font-medium text-slate-900">
                       {trip.passenger}
@@ -332,8 +358,8 @@ export function DashboardView() {
                           {alert.level === "danger"
                             ? "Alta"
                             : alert.level === "warning"
-                            ? "Media"
-                            : "OK"}
+                              ? "Media"
+                              : "OK"}
                         </span>
                       </div>
                       <p className="mt-2 text-sm text-slate-600">

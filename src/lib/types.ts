@@ -4,7 +4,8 @@ export type AppSection =
   | "quotes"
   | "calendar"
   | "messages"
-  | "bot";
+  | "bot"
+  | "demo-web";
 
 export type TravelPackage = {
   id: number;
